@@ -1,0 +1,28 @@
+name: Build WUP Installer GX2
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build using Wii U DevkitPPC Container
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/app -w /app ghcr.io/wiiu-env/devkitppc:20260504 make -j$(nproc)
+
+      - name: Upload Compiled Binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: wup_installer_gx2_build
+          path: |
+            wup_installer_gx2.wuhb
+            wup_installer_gx2.rpx
+            wup_installer_gx2.elf

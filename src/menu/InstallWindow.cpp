@@ -125,7 +125,7 @@ void InstallWindow::executeThread()
 	{
 		InstallProcess(pos, total);
 		
-		if(pos < total)
+		if(pos < total && !canceled)
 		{
 			int time = 6;
 			u64 startTime = OSGetTime();
@@ -133,6 +133,7 @@ void InstallWindow::executeThread()
 			
 			while(time && !canceled)
 			{
+				usleep(20000);
 				passedMs = OSTicksToMilliseconds(OSGetTime() - startTime);
 				
 				if(passedMs >= 1000)
@@ -177,7 +178,13 @@ void InstallWindow::InstallProcess(int pos, int total)
 	//! This part of code originates from Crediars MCP patcher assembly code
 	//! it is just translated to C
 	//!---------------------------------------------------
-	unsigned int mcpHandle = MCP_Open();
+	unsigned int mcpHandle = 0;
+	for(int retry = 0; retry < 5 && mcpHandle == 0; retry++)
+	{
+		mcpHandle = MCP_Open();
+		if(mcpHandle == 0)
+			usleep(100000);
+	}
 	if(mcpHandle == 0)
 	{
 		messageBox->reload("Install failed", gameName, "Failed to open MCP.", MessageBox::BT_OK, MessageBox::IT_ICONERROR);
@@ -272,7 +279,7 @@ void InstallWindow::InstallProcess(int pos, int total)
 					break;
 				}
 				
-				while(!installCompleted)
+				while(!installCompleted && !canceled)
 				{
 					memset(mcpInstallInfo, 0, 0x24);
 					
@@ -327,13 +334,27 @@ void InstallWindow::InstallProcess(int pos, int total)
 		}
 		while(0);
 		
-		MCP_Close(mcpHandle);
+		if(mcpHandle != 0)
+		{
+			MCP_Close(mcpHandle);
+			mcpHandle = 0;
+		}
 		if(mcpPathInfoVector)
+		{
 			OSFreeToSystem(mcpPathInfoVector);
+			mcpPathInfoVector = NULL;
+		}
 		if(mcpInstallPath)
+		{
 			OSFreeToSystem(mcpInstallPath);
+			mcpInstallPath = NULL;
+		}
 		if(mcpInstallInfo)
+		{
 			OSFreeToSystem(mcpInstallInfo);
+			mcpInstallInfo = NULL;
+		}
+		usleep(100000);
 	}
 	/////////////////////////////
 	
