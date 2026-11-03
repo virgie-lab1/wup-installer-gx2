@@ -190,6 +190,7 @@ void MainWindow::SetupMainView()
 	glm::vec3 clearCol = Theme::instance().getClearColor();
 	CVideo::setClearColor(clearCol.r, clearCol.g, clearCol.b);
 	bgParticleImg.setColorIntensity(Theme::instance().getParticleColor());
+	Application::instance()->switchBgMusic(Theme::instance().getThemeMusic());
 
 	currentDrcFrame = new GuiFrame(width, height);
 	currentDrcFrame->setEffect(EFFECT_FADE, 10, 255);

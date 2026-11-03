@@ -1,3 +1,4 @@
+#include "menu/Theme.h"
 /****************************************************************************
  * Copyright (C) 2015 Dimok
  *
@@ -59,10 +60,13 @@ Application::Application()
     //! load resources
     Resources::LoadFiles("fs:/vol/content");
 
-	bgMusic = new GuiSound(Resources::GetFile("bgMusic.ogg"), Resources::GetFileSize("bgMusic.ogg"));
-	bgMusic->SetLoop(true);
-	bgMusic->Play();
-	bgMusic->SetVolume(60);
+	const char * musicFile = Theme::instance().getThemeMusic();
+	bgMusic = new GuiSound(Resources::GetFile(musicFile), Resources::GetFileSize(musicFile));
+	if(bgMusic) {
+		bgMusic->SetLoop(true);
+		bgMusic->Play();
+		bgMusic->SetVolume(60);
+	}
 
 	exitApplication = false;
 
@@ -283,4 +287,27 @@ void Application::executeThread(void)
     {
         fadeOut();
     }
+}
+
+void Application::switchBgMusic(const char * filename)
+{
+	if(bgMusic)
+	{
+		bgMusic->Stop();
+		delete bgMusic;
+		bgMusic = NULL;
+	}
+
+	const u8 * fileData = Resources::GetFile(filename);
+	u32 fileSize = Resources::GetFileSize(filename);
+	if(fileData && fileSize > 0)
+	{
+		bgMusic = new GuiSound(fileData, fileSize);
+		if(bgMusic)
+		{
+			bgMusic->SetLoop(true);
+			bgMusic->Play();
+			bgMusic->SetVolume(60);
+		}
+	}
 }

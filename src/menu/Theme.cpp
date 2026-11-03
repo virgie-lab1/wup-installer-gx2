@@ -28,6 +28,14 @@ void Theme::toggleMode() {
     setMode(currentMode == THEME_LIGHT ? THEME_DARK : THEME_LIGHT);
 }
 
+const char * Theme::getThemeMusic() const {
+    if (currentMode == THEME_DARK) {
+        return "alien_soul.wav";
+    } else {
+        return "rain_eater.wav";
+    }
+}
+
 const char * Theme::getThemeName() const {
     return currentMode == THEME_LIGHT ? "Wii (Light)" : "Black (Dark)";
 }

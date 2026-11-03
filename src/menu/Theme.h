@@ -32,6 +32,7 @@ public:
     glm::vec3 getClearColor() const;
 
     const char * getThemeName() const;
+    const char * getThemeMusic() const;
 
     void loadConfig();
     void saveConfig();

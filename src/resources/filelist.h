@@ -1,7 +1,7 @@
 /****************************************************************************
  * Resource files.
  * This file is generated automatically.
- * Includes 40 files.
+ * Includes 41 files.
  *
  * NOTE:
  * Any manual modification of this file will be overwriten by the generation.
@@ -18,7 +18,7 @@ typedef struct _RecourceFile
 	unsigned int        CustomFileSize;
 } RecourceFile;
 
-#include "bgMusic_ogg.h"
+#include "alien_soul_wav.h"
 #include "button_click_mp3.h"
 #include "choiceCheckedRectangle_png.h"
 #include "choiceCheckedRectangle_dark_png.h"
@@ -47,6 +47,7 @@ typedef struct _RecourceFile
 #include "progressWindow_png.h"
 #include "progressWindow_dark_png.h"
 #include "questionIcon_png.h"
+#include "rain_eater_wav.h"
 #include "scrollbarButton_png.h"
 #include "scrollbarLine_png.h"
 #include "select_button_png.h"
@@ -61,7 +62,7 @@ typedef struct _RecourceFile
 
 static RecourceFile RecourceList[] =
 {
-	{"bgMusic.ogg", bgMusic_ogg, bgMusic_ogg_size, NULL, 0},
+	{"alien_soul.wav", alien_soul_wav, alien_soul_wav_size, NULL, 0},
 	{"button_click.mp3", button_click_mp3, button_click_mp3_size, NULL, 0},
 	{"choiceCheckedRectangle.png", choiceCheckedRectangle_png, choiceCheckedRectangle_png_size, NULL, 0},
 	{"choiceCheckedRectangle_dark.png", choiceCheckedRectangle_dark_png, choiceCheckedRectangle_dark_png_size, NULL, 0},
@@ -90,6 +91,7 @@ static RecourceFile RecourceList[] =
 	{"progressWindow.png", progressWindow_png, progressWindow_png_size, NULL, 0},
 	{"progressWindow_dark.png", progressWindow_dark_png, progressWindow_dark_png_size, NULL, 0},
 	{"questionIcon.png", questionIcon_png, questionIcon_png_size, NULL, 0},
+	{"rain_eater.wav", rain_eater_wav, rain_eater_wav_size, NULL, 0},
 	{"scrollbarButton.png", scrollbarButton_png, scrollbarButton_png_size, NULL, 0},
 	{"scrollbarLine.png", scrollbarLine_png, scrollbarLine_png_size, NULL, 0},
 	{"select_button.png", select_button_png, select_button_png_size, NULL, 0},

@@ -46,6 +46,7 @@ public:
 	MainWindow *getMainWindow(void) const {
 		return mainWindow;
 	}
+	void switchBgMusic(const char * filename);
 	GuiSound *getBgMusic(void) const {
 		return bgMusic;
 	}
