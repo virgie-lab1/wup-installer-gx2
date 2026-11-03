@@ -129,3 +129,4 @@ void Theme::saveConfig() {
         fclose(fp);
     }
 }
+

@@ -130,7 +130,7 @@ public:
     }
 	
 private:
-    void OnThemeToggle(GuiElement *element = NULL);
+    void OnThemeToggle(GuiButton *sender, const GuiController *controller, GuiTrigger *trigger);
     void SetupMainView(void);
 	void SetDrcHeader(void);
 	void SetBrowserWindow(void);

@@ -216,7 +216,7 @@ void MainWindow::SetupMainView()
 	append(currentDrcFrame);
 }
 
-void MainWindow::OnThemeToggle(GuiElement *element)
+void MainWindow::OnThemeToggle(GuiButton *sender, const GuiController *controller, GuiTrigger *trigger)
 {
 	Theme::instance().toggleMode();
 	glm::vec3 clearCol = Theme::instance().getClearColor();
