@@ -1,3 +1,4 @@
+#include "menu/Theme.h"
 #include <malloc.h>
 #include <string.h>
 #include "Resources.h"
@@ -86,7 +87,9 @@ GuiImageData * Resources::GetImageData(const char * filename)
     if(!instance)
         instance = new Resources;
 
-    std::map<std::string, std::pair<unsigned int, GuiImageData *> >::iterator itr = instance->imageDataMap.find(std::string(filename));
+    std::string resolvedName = Theme::instance().getImageFilename(filename);
+
+    std::map<std::string, std::pair<unsigned int, GuiImageData *> >::iterator itr = instance->imageDataMap.find(resolvedName);
     if(itr != instance->imageDataMap.end())
     {
         itr->second.first++;
@@ -95,7 +98,7 @@ GuiImageData * Resources::GetImageData(const char * filename)
 
 	for(int i = 0; RecourceList[i].filename != NULL; ++i)
 	{
-		if(strcasecmp(filename, RecourceList[i].filename) == 0)
+		if(strcasecmp(resolvedName.c_str(), RecourceList[i].filename) == 0)
 		{
 			const u8 * buff = RecourceList[i].CustomFile ? RecourceList[i].CustomFile : RecourceList[i].DefaultFile;
 			const u32 size = RecourceList[i].CustomFile ? RecourceList[i].CustomFileSize : RecourceList[i].DefaultFileSize;
@@ -104,12 +107,33 @@ GuiImageData * Resources::GetImageData(const char * filename)
                 return NULL;
 
             GuiImageData * image = new GuiImageData(buff, size);
-            instance->imageDataMap[std::string(filename)].first = 1;
-            instance->imageDataMap[std::string(filename)].second = image;
+            instance->imageDataMap[resolvedName].first = 1;
+            instance->imageDataMap[resolvedName].second = image;
 
             return image;
 		}
 	}
+
+    if(resolvedName != filename)
+    {
+        for(int i = 0; RecourceList[i].filename != NULL; ++i)
+        {
+            if(strcasecmp(filename, RecourceList[i].filename) == 0)
+            {
+                const u8 * buff = RecourceList[i].CustomFile ? RecourceList[i].CustomFile : RecourceList[i].DefaultFile;
+                const u32 size = RecourceList[i].CustomFile ? RecourceList[i].CustomFileSize : RecourceList[i].DefaultFileSize;
+
+                if(buff == NULL)
+                    return NULL;
+
+                GuiImageData * image = new GuiImageData(buff, size);
+                instance->imageDataMap[std::string(filename)].first = 1;
+                instance->imageDataMap[std::string(filename)].second = image;
+
+                return image;
+            }
+        }
+    }
 
 	return NULL;
 }

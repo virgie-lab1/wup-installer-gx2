@@ -130,6 +130,7 @@ public:
     }
 	
 private:
+    void OnThemeToggle(GuiElement *element = NULL);
     void SetupMainView(void);
 	void SetDrcHeader(void);
 	void SetBrowserWindow(void);
@@ -154,6 +155,9 @@ private:
     GuiImage titleImg;
 	GuiText titleText;
 	GuiText versionText;
+    GuiText themeToggleTxt;
+    GuiButton themeToggleBtn;
+    GuiTrigger buttonXTrigger;
     GuiFrame headerFrame;
     
     GuiFrame * currentDrcFrame;

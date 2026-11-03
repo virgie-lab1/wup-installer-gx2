@@ -1,3 +1,5 @@
+#include "Theme.h"
+#include "video/CVideo.h"
 /****************************************************************************
  * Copyright (C) 2015 Dimok
  *
@@ -32,6 +34,9 @@ MainWindow::MainWindow(int w, int h)
 	, titleImg(titleImgData)
 	, titleText("WUP Installer GX2")
 	, versionText(WUP_GX2_VERSION)
+	, themeToggleTxt("[X] Theme", 26, glm::vec4(1.0f))
+	, themeToggleBtn(220, 50)
+	, buttonXTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_X, true)
 {
 	folderList = NULL;
 	installWindow = NULL;
@@ -182,6 +187,10 @@ void MainWindow::drawTv(CVideo *video)
 
 void MainWindow::SetupMainView()
 {
+	glm::vec3 clearCol = Theme::instance().getClearColor();
+	CVideo::setClearColor(clearCol.r, clearCol.g, clearCol.b);
+	bgParticleImg.setColorIntensity(Theme::instance().getParticleColor());
+
 	currentDrcFrame = new GuiFrame(width, height);
 	currentDrcFrame->setEffect(EFFECT_FADE, 10, 255);
 	currentDrcFrame->setState(GuiElement::STATE_DISABLED);
@@ -207,25 +216,73 @@ void MainWindow::SetupMainView()
 	append(currentDrcFrame);
 }
 
+void MainWindow::OnThemeToggle(GuiElement *element)
+{
+	Theme::instance().toggleMode();
+	glm::vec3 clearCol = Theme::instance().getClearColor();
+	CVideo::setClearColor(clearCol.r, clearCol.g, clearCol.b);
+
+	bgParticleImg.setColorIntensity(Theme::instance().getParticleColor());
+
+	Resources::RemoveImageData(titleImgData);
+	titleImgData = Resources::GetImageData("titleHeader.png");
+	titleImg.setImageData(titleImgData);
+
+	titleText.setColor(Theme::instance().getHeaderTextColor());
+	titleText.setBlurGlowColor(5.0f, Theme::instance().getHeaderGlowColor());
+
+	versionText.setColor(Theme::instance().getTextSecondaryColor());
+	versionText.setBlurGlowColor(4.0f, Theme::instance().getHeaderGlowColor());
+	versionText.setTextf("%s (%s)", WUP_GX2_VERSION, Theme::instance().getThemeName());
+
+	themeToggleTxt.setTextf("[X] %s", Theme::instance().getThemeName());
+	themeToggleTxt.setColor(Theme::instance().getTextSecondaryColor());
+	themeToggleTxt.setBlurGlowColor(4.0f, Theme::instance().getHeaderGlowColor());
+
+	if(browserWindow)
+	{
+		currentDrcFrame->remove(browserWindow);
+		delete browserWindow;
+		browserWindow = NULL;
+	}
+	SetBrowserWindow();
+	currentDrcFrame->bringToFront(&headerFrame);
+}
+
 void MainWindow::SetDrcHeader()
 {
-	titleText.setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	titleText.setFontSize(46);
+	titleText.setColor(Theme::instance().getHeaderTextColor());
+	titleText.setFontSize(44);
 	titleText.setPosition(0, 10);
-	titleText.setBlurGlowColor(5.0f, glm::vec4(0.0, 0.0, 0.0f, 1.0f));
+	titleText.setBlurGlowColor(5.0f, Theme::instance().getHeaderGlowColor());
 	
-	versionText.setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	versionText.setFontSize(30);
-	versionText.setPosition(-15, -40);
-	versionText.setBlurGlowColor(5.0f, glm::vec4(0.0, 0.0, 0.0f, 1.0f));
+	versionText.setColor(Theme::instance().getTextSecondaryColor());
+	versionText.setFontSize(26);
+	versionText.setPosition(-15, -42);
+	versionText.setBlurGlowColor(4.0f, Theme::instance().getHeaderGlowColor());
 	versionText.setAlignment(ALIGN_RIGHT | ALIGN_TOP);
-	versionText.setTextf("%s (Aroma)", WUP_GX2_VERSION);
+	versionText.setTextf("%s (%s)", WUP_GX2_VERSION, Theme::instance().getThemeName());
+
+	themeToggleTxt.setTextf("[X] %s", Theme::instance().getThemeName());
+	themeToggleTxt.setColor(Theme::instance().getTextSecondaryColor());
+	themeToggleTxt.setFontSize(26);
+	themeToggleTxt.setBlurGlowColor(4.0f, Theme::instance().getHeaderGlowColor());
+	themeToggleTxt.setAlignment(ALIGN_LEFT | ALIGN_TOP);
+	themeToggleTxt.setPosition(25, -42);
+
+	themeToggleBtn.setSize(220, 45);
+	themeToggleBtn.setAlignment(ALIGN_LEFT | ALIGN_TOP);
+	themeToggleBtn.setPosition(20, -45);
+	themeToggleBtn.setLabel(&themeToggleTxt);
+	themeToggleBtn.setTrigger(&buttonXTrigger);
+	themeToggleBtn.clicked.connect(this, &MainWindow::OnThemeToggle);
 	
 	headerFrame.setSize(titleImg.getWidth(), titleImg.getHeight());
 	headerFrame.setPosition(0, 310);
 	headerFrame.append(&titleImg);
 	headerFrame.append(&titleText);
 	headerFrame.append(&versionText);
+	headerFrame.append(&themeToggleBtn);
 	
 	currentDrcFrame->append(&headerFrame);
 }

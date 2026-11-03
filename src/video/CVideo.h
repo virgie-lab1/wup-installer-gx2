@@ -47,8 +47,17 @@ public:
         prepareRendering();
     }
 
+    static float clearColorR;
+    static float clearColorG;
+    static float clearColorB;
+    static void setClearColor(float r, float g, float b) {
+        clearColorR = r;
+        clearColorG = g;
+        clearColorB = b;
+    }
+
     void prepareRendering(void) {
-        GX2ClearColor(currColorBuffer, 0.0f, 0.0f, 0.0f, 1.0f);
+        GX2ClearColor(currColorBuffer, clearColorR, clearColorG, clearColorB, 1.0f);
         GX2ClearDepthStencilEx(currDepthBuffer, currDepthBuffer->depthClear, currDepthBuffer->stencilClear, GX2_CLEAR_FLAGS_BOTH);
 
         GX2SetContextState(currContextState);

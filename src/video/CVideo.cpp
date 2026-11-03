@@ -25,6 +25,10 @@
 #include "shaders/FXAAShader.h"
 #include "utils/utils.h"
 
+float CVideo::clearColorR = 0.95f;
+float CVideo::clearColorG = 0.96f;
+float CVideo::clearColorB = 0.98f;
+
 CVideo::CVideo(s32 forceTvScanMode, s32 forceDrcScanMode)
 {
     tvEnabled = false;

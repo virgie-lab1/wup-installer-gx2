@@ -1,3 +1,4 @@
+#include "Theme.h"
 /****************************************************************************
  * Copyright (C) 2015 Dimok
  *
@@ -37,9 +38,10 @@ BrowserWindow::BrowserWindow(int w, int h, CFolderList * list)
 	, deleteImg(selectImageData)
 	, validImageData(Resources::GetImageData("validIcon.png"))
 	, validImg(validImageData)
-	, plusTxt("Select All", 42, glm::vec4(0.9f, 0.9f, 0.9f, 1.0f))	, minusTxt("Unselect All", 42, glm::vec4(0.9f, 0.9f, 0.9f, 1.0f))
-	, installTxt("Install", 42, glm::vec4(0.9f, 0.9f, 0.9f, 1.0f))
-	, deleteTxt("Del. after install", 32, glm::vec4(0.9f, 0.9f, 0.9f, 1.0f))
+	, plusTxt("Select All", 40, Theme::instance().getTextColor())
+	, minusTxt("Unselect All", 40, Theme::instance().getTextColor())
+	, installTxt("Install", 40, Theme::instance().getTextColor())
+	, deleteTxt("Del. after install", 30, Theme::instance().getTextColor())
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
     , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
     , buttonUpTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_UP | GuiTrigger::STICK_L_UP, true)
@@ -69,11 +71,11 @@ BrowserWindow::BrowserWindow(int w, int h, CFolderList * list)
 		folderButtons[i].folderButtonHighlightedImg = new GuiImage(buttonHighlightedImageData);
 		folderButtons[i].folderButton = new GuiButton(folderButtons[i].folderButtonImg->getWidth(), folderButtons[i].folderButtonImg->getHeight());
 		
-		folderButtons[i].folderButtonText = new GuiText(folderList->GetName(i).c_str(), 42, glm::vec4(0.9f, 0.9f, 0.9f, 1.0f));
+		folderButtons[i].folderButtonText = new GuiText(folderList->GetName(i).c_str(), 40, Theme::instance().getTextColor());
 		folderButtons[i].folderButtonText->setMaxWidth(folderButtons[i].folderButtonImg->getWidth() - 70, GuiText::DOTTED);
 		folderButtons[i].folderButtonText->setPosition(35, 0);
 		
-		folderButtons[i].folderButtonTextOver = new GuiText(folderList->GetName(i).c_str(), 42, glm::vec4(0.9f, 0.9f, 0.9f, 1.0f));
+		folderButtons[i].folderButtonTextOver = new GuiText(folderList->GetName(i).c_str(), 40, Theme::instance().getTextSecondaryColor());
 		folderButtons[i].folderButtonTextOver->setMaxWidth(folderButtons[i].folderButtonImg->getWidth() - 94, GuiText::SCROLL_HORIZONTAL);
 		folderButtons[i].folderButtonTextOver->setPosition(35, 0);
 		
