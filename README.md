@@ -1,6 +1,6 @@
 # WUP Installer GX2 (Enhanced & 100% Offline)
 
-[![Build and Release](https://github.com/Fangal-Airbag/wup-installer-gx2/actions/workflows/build.yml/badge.svg)](https://github.com/Fangal-Airbag/wup-installer-gx2/actions)
+[![Build and Release](https://github.com/virgie-lab1/wup-installer-gx2/actions/workflows/build.yml/badge.svg)](https://github.com/virgie-lab1/wup-installer-gx2/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Environment](https://img.shields.io/badge/Wii%20U-Aroma%20%7C%20Tiramisu%20%7C%20HBL-brightgreen.svg)]()
 [![Offline](https://img.shields.io/badge/Network-100%25%20Offline-orange.svg)]()
@@ -34,7 +34,7 @@ WUP Installer GX2 is an **entirely offline title installer** with a graphical in
 ## 💾 Installation Guide
 
 ### For Aroma Users (Recommended)
-1. Download `wup_installer_gx2.wuhb` (or `wup_installer_gx2_SD_ready.zip`) from the [Releases](../../releases) page.
+1. Download `wup_installer_gx2.wuhb` (or `wup_installer_gx2_SD_ready.zip`) from the [Releases](https://github.com/virgie-lab1/wup-installer-gx2/releases) page.
 2. Copy `wup_installer_gx2.wuhb` into the `wiiu/apps/` folder on your SD card:
    ```text
    SD:/

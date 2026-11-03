@@ -12,3 +12,4 @@ Completely offline: does not require Wi-Fi, Ethernet, or internet access.
 Features batch install stability fixes, MCP handle recycling, wudump directory support, and automatic install cleanup.</long_description>
   <category>tool</category>
 </app>
+
