@@ -211,6 +211,10 @@ $(OFILES_SRC)	: $(HFILES_BIN)
 	@echo $(notdir $<)
 	@$(bin2o)	
 	
+%.wav.o	%_wav.h :	%.wav
+	@echo $(notdir $<)
+	@$(bin2o)	
+
 %.ttf.o	%_ttf.h :	%.ttf
 	@echo $(notdir $<)
 	@$(bin2o)	
