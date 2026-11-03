@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<app version="1">
+  <name>WUP Installer GX2</name>
+  <coder>Dj_Skual, Fangal-Airbag</coder>
+  <url>https://github.com/Fangal-Airbag/wup-installer-gx2</url>
+  <version>v1.5.0</version>
+  <release_date>20261103</release_date>
+  <short_description>Wii U public title installer (100% Offline, Aroma &amp; HBL).</short_description>
+  <long_description>Wii U title installer with GUI based on Loadiine GX2.
+Installs games, updates, and DLC to NAND or USB storage.
+Completely offline: does not require Wi-Fi, Ethernet, or internet access.
+Features batch install stability fixes, MCP handle recycling, wudump directory support, and automatic install cleanup.</long_description>
+  <category>tool</category>
+</app>

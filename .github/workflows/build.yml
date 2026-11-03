@@ -1,24 +1,53 @@
-name: Build WUP Installer GX2
+name: Build and Release WUP Installer GX2
 
 on:
   push:
     branches: [ "**" ]
+    tags:
+      - "v*"
   pull_request:
     branches: [ "**" ]
   workflow_dispatch:
+    inputs:
+      create_release:
+        description: 'Publish as GitHub Release?'
+        required: false
+        type: boolean
+        default: false
+      tag_name:
+        description: 'Release tag name (e.g. v1.5.0)'
+        required: false
+        default: 'v1.5.0'
+
+permissions:
+  contents: write
 
 jobs:
   build:
+    name: Build & Package
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Build using Wii U DevkitPPC Container
+      - name: Build using DevkitPPC Container
         run: |
           docker run --rm -v ${{ github.workspace }}:/app -w /app ghcr.io/wiiu-env/devkitppc:20260504 make -j$(nproc)
 
-      - name: Upload Compiled Binaries
+      - name: Prepare SD Card Bundle
+        run: |
+          mkdir -p bundle/wiiu/apps/wup_installer_gx2
+          cp wup_installer_gx2.wuhb bundle/wiiu/apps/
+          cp wup_installer_gx2.elf bundle/wiiu/apps/wup_installer_gx2/
+          cp meta/icon.png bundle/wiiu/apps/wup_installer_gx2/
+          if [ -f meta/meta.xml ]; then
+            cp meta/meta.xml bundle/wiiu/apps/wup_installer_gx2/
+          fi
+          cd bundle && zip -r ../wup_installer_gx2_SD_ready.zip wiiu && cd ..
+
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: wup_installer_gx2_build
@@ -26,3 +55,19 @@ jobs:
             wup_installer_gx2.wuhb
             wup_installer_gx2.rpx
             wup_installer_gx2.elf
+            wup_installer_gx2_SD_ready.zip
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.create_release == true
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name || github.event.inputs.tag_name }}
+          name: WUP Installer GX2 ${{ github.ref_name || github.event.inputs.tag_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            wup_installer_gx2.wuhb
+            wup_installer_gx2.rpx
+            wup_installer_gx2.elf
+            wup_installer_gx2_SD_ready.zip
